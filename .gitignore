@@ -1,0 +1,16 @@
+# Java build files
+*.class
+*.jar
+*.war
+*.ear
+/bin/
+/out/
+/build/
+
+# VS Code settings
+.vscode/
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
