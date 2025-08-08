@@ -1,3 +1,5 @@
+package behavioral.iterator;
+
 // Iterator Design Pattern Example in Java
 public class IteratorExample {
     public static void main(String[] args) {
