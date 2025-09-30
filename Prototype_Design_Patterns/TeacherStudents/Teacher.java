@@ -14,7 +14,7 @@ public class Teacher extends Person {
 
     @Override
     public Teacher clone() {
-        return (Teacher) super.clone();
+        return new Teacher(this.name, this.age, this.employeeId, this.subject);
     }
 
     @Override

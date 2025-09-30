@@ -11,17 +11,9 @@ public abstract class Person implements Cloneable {
         this.age = age;
     }
 
-    // Prototype method
+    // Prototype method as abstract
     @Override
-    public Person clone() {
-        try {
-            return (Person) super.clone(); // shallow copy
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    public abstract Person clone();
 
     public abstract void display();
 }
-

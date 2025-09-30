@@ -12,14 +12,15 @@ public class Student extends Person {
         this.course = course;
     }
 
+    // Implement abstract clone method
     @Override
     public Student clone() {
-        return (Student) super.clone(); // Shallow copy is fine for this simple class
+        return new Student(this.name, this.age, this.studentId, this.course);
     }
 
     @Override
     public void display() {
-        System.out.println("Student(Name: " + name + ", Age: " + age + 
+        System.out.println("Student(Name: " + name + ", Age: " + age +
                            ", ID: " + studentId + ", Course: " + course + ")");
     }
 

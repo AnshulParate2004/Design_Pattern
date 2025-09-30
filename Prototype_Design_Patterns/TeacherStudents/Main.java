@@ -1,34 +1,27 @@
 package Prototype_Design_Patterns.TeacherStudents;
 
-
 public class Main {
     public static void main(String[] args) {
-        // Create prototype objects
-        Student studentPrototype = new Student("Prototype Student", 20, "S000", "Computer Science");
-        Teacher teacherPrototype = new Teacher("Prototype Teacher", 40, "T000", "Mathematics");
+        // Create original Student
+        Student s1 = new Student("Alice", 20, "S101", "Computer Science");
+        s1.display();
 
-        // Clone students
-        Student student1 = studentPrototype.clone();
-        student1.setName("Alice");
-        student1.setStudentId("S101");
+        // Clone Student
+        Student s2 = s1.clone();
+        s2.setName("Bob");
+        s2.setStudentId("S102");
+        s2.display();
 
-        Student student2 = studentPrototype.clone();
-        student2.setName("Bob");
-        student2.setStudentId("S102");
+        System.out.println();
 
-        // Clone teachers
-        Teacher teacher1 = teacherPrototype.clone();
-        teacher1.setName("Dr. Smith");
-        teacher1.setEmployeeId("T201");
+        // Create original Teacher
+        Teacher t1 = new Teacher("Mr. Smith", 45, "T201", "Mathematics");
+        t1.display();
 
-        Teacher teacher2 = teacherPrototype.clone();
-        teacher2.setName("Dr. Jane");
-        teacher2.setEmployeeId("T202");
-
-        // Display results
-        student1.display();
-        student2.display();
-        teacher1.display();
-        teacher2.display();
+        // Clone Teacher
+        Teacher t2 = t1.clone();
+        t2.setName("Mrs. Johnson");
+        t2.setEmployeeId("T202");
+        t2.display();
     }
 }
