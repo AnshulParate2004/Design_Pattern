@@ -1,6 +1,6 @@
-// Step 1: Observer Interface
 import java.util.*;
 
+// Step 1: Observer Interface
 interface Observer {
     void update();
 }
@@ -40,7 +40,7 @@ class ConcreteSubject implements Subject {
 
     public void setState(String state) {
         this.subjectState = state;
-        notifyObservers();  // Important: notify when state changes
+        notifyObservers();  //notify 
     }
 }
 
@@ -51,12 +51,11 @@ class ConcreteObserver implements Observer {
 
     public ConcreteObserver(ConcreteSubject subject) {
         this.subject = subject;
-        subject.attach(this); // Auto-attach to subject
+        subject.attach(this); // Auto-attach 
     }
 
     @Override
     public void update() {
-        // Sync with subject’s state
         this.observerState = subject.getState();
         System.out.println("Observer updated, new state: " + observerState);
     }
@@ -65,14 +64,12 @@ class ConcreteObserver implements Observer {
 // Step 5: Demo
 public class ObserverPatternDemo {
     public static void main(String[] args) {
-        // Create subject
+
         ConcreteSubject subject = new ConcreteSubject();
 
-        // Create observers
         Observer obs1 = new ConcreteObserver(subject);
         Observer obs2 = new ConcreteObserver(subject);
 
-        // Change subject state
         subject.setState("State A");
         subject.setState("State B");
     }

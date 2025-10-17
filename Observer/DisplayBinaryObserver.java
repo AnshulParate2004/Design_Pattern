@@ -2,7 +2,7 @@ public class DisplayBinaryObserver extends Observer{
 
    public DisplayBinaryObserver(Subject subject){
       this.subject = subject;
-      this.subject.attach(this);     // THIS LINE IS VERY IMPORTANT
+      this.subject.attach(this);     // update 
    }
 
    @Override
