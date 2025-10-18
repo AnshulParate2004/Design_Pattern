@@ -62,10 +62,10 @@ public class SmartHomeApp {
         System.out.println("║     SMART HOME CONTROL MENU        ║");
         System.out.println("╠════════════════════════════════════╣");
         System.out.println("║ 1. Add New Device                  ║");
-        System.out.println("║ 2. Control Device (No Proxy)      ║");
+        System.out.println("║ 2. Control Device (No Proxy)       ║");
         System.out.println("║ 3. Display All Device Status       ║");
-        System.out.println("║ 4. Notify All (Proxy) 🛡️          ║");
-        System.out.println("║ 5. Security Mode (Proxy) 🛡️       ║");
+        System.out.println("║ 4. Notify All (Proxy)              ║");
+        System.out.println("║ 5. Security Mode (Proxy)           ║");
         System.out.println("║ 6. Exit                            ║");
         System.out.println("╚════════════════════════════════════╝");
     }
