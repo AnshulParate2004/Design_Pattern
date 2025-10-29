@@ -1,64 +1,73 @@
 import java.util.ArrayList;
 import java.util.List;
 
-// Mediator Pattern - Hub with Proxy for Notify & Security Only
+/**
+ * Smart Home Hub Class - Mediator Pattern
+ * Purpose: Central controller for all smart home devices
+ * Manages device registration, commands, and security mode
+ * Acts as mediator between user and devices
+ */
 public class SmartHomeHub {
-    private List<DeviceProxy> devices;  // Now stores proxies
+    private List<DeviceProxy> devices;
     private String hubName;
     private boolean securityModeActive;
 
+    /**
+     * Constructor
+     * Initializes the hub with a name and empty device list
+     */
     public SmartHomeHub(String hubName) {
         this.hubName = hubName;
         this.devices = new ArrayList<>();
         this.securityModeActive = false;
-        System.out.println("🏠 " + hubName + " initialized!");
+        System.out.println(hubName + " initialized!");
     }
 
-    // Register a new device (wrapped in proxy internally)
+    /**
+     * Registers a new device to the hub
+     * Purpose: Wraps device in proxy for future security operations
+     * Uses Proxy Pattern to add extra layer of control
+     */
     public void registerDevice(Device device) {
         DeviceProxy proxy = new DeviceProxy(device);
         devices.add(proxy);
-        System.out.println("✅ " + device.getDeviceName() + " registered to " + hubName);
+        System.out.println(device.getDeviceName() + " registered to " + hubName);
     }
 
-    // Case 4: Notify all devices - PROXY PATTERN ACTIVE! 🛡️
-    public void notifyAllDevices(String message) {
-        System.out.println("\n📢 Broadcasting to all devices: " + message);
-        System.out.println("🛡️ [PROXY PATTERN ACTIVE] Intercepting and logging all notifications...\n");
-        
-        for (DeviceProxy proxy : devices) {
-            proxy.update(message);  // Proxy intercepts, logs, then forwards
-        }
-        
-        System.out.println("\n✅ All notifications sent via Proxy");
-    }
-
-    // Case 2: Send command to specific device - NO PROXY (direct)
+    /**
+     * Sends direct command to a specific device
+     * Purpose: Normal device control without proxy intervention
+     * Demonstrates direct communication for regular operations
+     */
     public void sendCommand(String deviceName, String command) {
         for (DeviceProxy proxy : devices) {
             if (proxy.getDeviceName().equalsIgnoreCase(deviceName)) {
-                System.out.println("\n📤 Sending command to " + deviceName + ": " + command);
-                System.out.println("ℹ️  [NO PROXY] Direct device control");
+                System.out.println("\n Sending command to " + deviceName + ": " + command);
+                System.out.println(" [NO PROXY] Direct device control");
                 
                 if (command.equalsIgnoreCase("ON")) {
-                    proxy.turnOn();  // Direct pass-through, no proxy logic
+                    proxy.turnOn();
                 } else if (command.equalsIgnoreCase("OFF")) {
-                    proxy.turnOff();  // Direct pass-through, no proxy logic
+                    proxy.turnOff();
                 }
                 return;
             }
         }
-        System.out.println("❌ Device not found: " + deviceName);
+        System.out.println(" Device not found: " + deviceName);
     }
 
-    // Case 5: Security Mode - PROXY PATTERN ACTIVE! 🛡️
+    /**
+     * Activates security mode for all devices
+     * Purpose: Demonstrates Proxy Pattern with authentication
+     * Authenticates access, logs actions, and executes security protocol
+     * Turns off all lights and locks all doors
+     */
     public void activateSecurityMode(String adminPassword) {
-        System.out.println("\n🚨 ATTEMPTING TO ACTIVATE SECURITY MODE 🚨");
-        System.out.println("🛡️ [PROXY PATTERN ACTIVE] Authenticating all devices...\n");
+        System.out.println("\n ATTEMPTING TO ACTIVATE SECURITY MODE ");
+        System.out.println(" [PROXY PATTERN ACTIVE] Authenticating all devices...\n");
         
         boolean allAuthenticated = true;
         
-        // Authenticate all devices through proxy
         for (DeviceProxy proxy : devices) {
             if (!proxy.authenticateForSecurity(adminPassword)) {
                 allAuthenticated = false;
@@ -66,41 +75,45 @@ public class SmartHomeHub {
         }
         
         if (!allAuthenticated) {
-            System.out.println("\n❌ Security Mode activation FAILED - Authentication error");
+            System.out.println("\n Security Mode activation FAILED - Authentication error");
             return;
         }
         
-        System.out.println("\n✅ All devices authenticated via Proxy. Executing Security Protocol...\n");
+        System.out.println("\n All devices authenticated via Proxy. Executing Security Protocol...\n");
         securityModeActive = true;
         
-        // Execute security protocol through proxy
         for (DeviceProxy proxy : devices) {
             Device realDevice = proxy.getRealDevice();
             
             if (realDevice instanceof Light) {
-                proxy.securityTurnOff();  // Through proxy with logging
+                proxy.securityTurnOff();
             } else if (realDevice instanceof DoorLock) {
-                proxy.securityTurnOn();  // Through proxy with logging
+                proxy.securityTurnOn();
             }
         }
         
-        System.out.println("\n🔒 SECURITY MODE ACTIVE 🔒");
+        System.out.println("\n SECURITY MODE ACTIVE ");
         
-        // Reset authentication after use
         for (DeviceProxy proxy : devices) {
             proxy.resetAuthentication();
         }
     }
     
-    // Deactivate security mode
+    /**
+     * Deactivates security mode
+     * Purpose: Resets security state of the system
+     */
     public void deactivateSecurityMode() {
         securityModeActive = false;
-        System.out.println("\n🔓 Security Mode Deactivated");
+        System.out.println("\n Security Mode Deactivated");
     }
 
-    // Display all device statuses
+    /**
+     * Displays status of all registered devices
+     * Purpose: Provides overview of all devices and security state
+     */
     public void displayAllStatuses() {
-        System.out.println("\n📊 === Device Status Report ===");
+        System.out.println("\n === Device Status Report ===");
         if (devices.isEmpty()) {
             System.out.println("No devices registered.");
         } else {
@@ -108,11 +121,14 @@ public class SmartHomeHub {
                 System.out.println("   " + proxy.getDeviceName() + ": " + proxy.getStatus());
             }
         }
-        System.out.println("Security Mode: " + (securityModeActive ? "ACTIVE 🔒" : "INACTIVE"));
+        System.out.println("Security Mode: " + (securityModeActive ? "ACTIVE" : "INACTIVE"));
         System.out.println("================================\n");
     }
 
-    // Get all device proxies
+    /**
+     * Returns list of all device proxies
+     * Purpose: Allows external access to device list
+     */
     public List<DeviceProxy> getDevices() {
         return devices;
     }

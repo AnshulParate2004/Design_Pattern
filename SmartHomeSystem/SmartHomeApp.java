@@ -1,16 +1,19 @@
 import java.util.Scanner;
 
-// Main Application - Proxy ONLY for Cases 4 & 5
+/**
+ * Main Application Class
+ * Purpose: Entry point for the Smart Home Control System
+ * Handles user interaction and menu-driven operations
+ * Demonstrates Proxy Pattern for Security Mode authentication
+ */
 public class SmartHomeApp {
     
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
-        // Create the Smart Home Hub (Mediator)
         SmartHomeHub hub = new SmartHomeHub("My Smart Home Hub");
         
-        System.out.println("\n🎉 Welcome to Smart Home Control System! 🎉");
-        System.out.println("🛡️  Proxy Pattern: Cases 4 & 5 Only! 🛡️");
+        System.out.println("\n Welcome to Smart Home Control System! ");
+        System.out.println("  Proxy Pattern: Security Mode Only! ");
         System.out.println("==========================================");
         System.out.println("Security Mode password: admin123");
         System.out.println("==========================================\n");
@@ -23,56 +26,59 @@ public class SmartHomeApp {
             
             try {
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 
                 switch (choice) {
                     case 1:
                         addDevice(scanner, hub);
                         break;
                     case 2:
-                        controlDevice(scanner, hub);  // NO PROXY
+                        controlDevice(scanner, hub);
                         break;
                     case 3:
                         hub.displayAllStatuses();
                         break;
                     case 4:
-                        notifyDevices(scanner, hub);  // PROXY ACTIVE 🛡️
+                        activateSecurityMode(scanner, hub);
                         break;
                     case 5:
-                        activateSecurityMode(scanner, hub);  // PROXY ACTIVE 🛡️
-                        break;
-                    case 6:
-                        System.out.println("\n👋 Thank you for using Smart Home System! Goodbye!");
+                        System.out.println("\n Thank you for using Smart Home System! Goodbye!");
                         running = false;
                         break;
                     default:
-                        System.out.println("❌ Invalid choice. Please try again.\n");
+                        System.out.println(" Invalid choice. Please try again.\n");
                 }
             } catch (Exception e) {
-                System.out.println("❌ Invalid input. Please enter a number.\n");
-                scanner.nextLine(); // Clear invalid input
+                System.out.println(" Invalid input. Please enter a number.\n");
+                scanner.nextLine();
             }
         }
         
         scanner.close();
     }
     
+    /**
+     * Displays the main menu options to the user
+     */
     private static void displayMenu() {
         System.out.println("╔════════════════════════════════════╗");
         System.out.println("║     SMART HOME CONTROL MENU        ║");
         System.out.println("╠════════════════════════════════════╣");
         System.out.println("║ 1. Add New Device                  ║");
-        System.out.println("║ 2. Control Device (No Proxy)       ║");
+        System.out.println("║ 2. Control Device                  ║");
         System.out.println("║ 3. Display All Device Status       ║");
-        System.out.println("║ 4. Notify All (Proxy)              ║");
-        System.out.println("║ 5. Security Mode (Proxy)           ║");
-        System.out.println("║ 6. Exit                            ║");
+        System.out.println("║ 4. Security Mode                   ║");
+        System.out.println("║ 5. Exit                            ║");
         System.out.println("╚════════════════════════════════════╝");
     }
     
-    // Case 1: Add device - Factory Pattern
+    /**
+     * Adds a new device to the smart home system
+     * Uses Factory Pattern to create devices based on type
+     * Purpose: Demonstrates Factory Pattern for device creation
+     */
     private static void addDevice(Scanner scanner, SmartHomeHub hub) {
-        System.out.println("\n📱 Available Device Types:");
+        System.out.println("\n Available Device Types:");
         System.out.println("   - Light");
         System.out.println("   - Fan");
         System.out.println("   - AC (Air Conditioner)");
@@ -87,19 +93,23 @@ public class SmartHomeApp {
         Device device = DeviceFactory.createDevice(type, name);
         
         if (device != null) {
-            hub.registerDevice(device);  // Hub wraps it in proxy internally
+            hub.registerDevice(device);
         }
         System.out.println();
     }
     
-    // Case 2: Control device - NO PROXY (direct control)
+    /**
+     * Controls a specific device with ON/OFF commands
+     * Purpose: Direct device control without proxy intervention
+     * Demonstrates normal operation mode
+     */
     private static void controlDevice(Scanner scanner, SmartHomeHub hub) {
         if (hub.getDevices().isEmpty()) {
-            System.out.println("\n❌ No devices registered. Add devices first!\n");
+            System.out.println("\n No devices registered. Add devices first!\n");
             return;
         }
         
-        System.out.println("\n📋 Registered Devices:");
+        System.out.println("\n Registered Devices:");
         for (DeviceProxy proxy : hub.getDevices()) {
             System.out.println("   - " + proxy.getDeviceName());
         }
@@ -110,36 +120,24 @@ public class SmartHomeApp {
         System.out.print("Enter command (ON/OFF): ");
         String command = scanner.nextLine();
         
-        hub.sendCommand(deviceName, command);  // Direct control, no proxy logic
+        hub.sendCommand(deviceName, command);
         System.out.println();
     }
     
-    // Case 4: Notify all devices - PROXY PATTERN ACTIVE! 🛡️
-    private static void notifyDevices(Scanner scanner, SmartHomeHub hub) {
-        if (hub.getDevices().isEmpty()) {
-            System.out.println("\n❌ No devices registered. Add devices first!\n");
-            return;
-        }
-        
-        System.out.print("\nEnter notification message: ");
-        String message = scanner.nextLine();
-        
-        // Proxy intercepts, logs, and forwards all notifications
-        hub.notifyAllDevices(message);
-        System.out.println();
-    }
-    
-    // Case 5: Security mode - PROXY PATTERN ACTIVE! 🛡️
+    /**
+     * Activates security mode for all devices
+     * Purpose: Demonstrates Proxy Pattern with authentication and logging
+     * Requires admin password to execute security protocol
+     */
     private static void activateSecurityMode(Scanner scanner, SmartHomeHub hub) {
         if (hub.getDevices().isEmpty()) {
-            System.out.println("\n❌ No devices registered. Add devices first!\n");
+            System.out.println("\n No devices registered. Add devices first!\n");
             return;
         }
         
         System.out.print("\nEnter ADMIN password: ");
         String password = scanner.nextLine();
         
-        // Proxy handles authentication and logging for security mode
         hub.activateSecurityMode(password);
         System.out.println();
     }
