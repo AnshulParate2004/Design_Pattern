@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 /**
  * Main Application Class
  * Purpose: Entry point for the Smart Home Control System
@@ -97,7 +96,7 @@ public class SmartHomeApp {
         }
         System.out.println();
     }
-    
+
     /**
      * Controls a specific device with ON/OFF commands
      * Purpose: Direct device control without proxy intervention
